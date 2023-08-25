@@ -2,16 +2,18 @@
 
 Contact::Contact(std::string first_name, std::string last_name, std::string nick_name, std::string phone_number,std::string darkest_secret)
 {
-    Contact::First_name = first_name;
-    Contact::Last_name = last_name;
-    Contact::Nick_name = nick_name;
-    Contact::Phone_number = phone_number;
-    Contact::Darkest_secret = darkest_secret;
+    First_name = first_name;
+    Last_name = last_name;
+    Nick_name = nick_name;
+    Phone_number = phone_number;
+    Darkest_secret = darkest_secret;
 }
+
 Contact ::Contact()
 {
     return ;
 }
+
 Contact ::~Contact()
 {
     return ;
