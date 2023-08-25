@@ -1,19 +1,21 @@
-SRC = main.cpp PhoneBook.cpp Contact.cpp
+SRC = Account.cpp tests.cpp
 
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-NAME = PhoneBook
+NAME= Account
+
 RED = \033[1;31m
 GREEN = \033[1;32m
 BLUE = \033[1;34m
 YELLOW = \033[1;33m
 RESET = \033[0m
 
+
 all: $(NAME)
 
 $(NAME): ascci_art $(OSRC) 
-	@c++ $(CFLAGS) $(OSRC) -o $@
+	@c++ $(CFLAGS) $(INCLUDE) $(OSRC) -o $@
 
 %.o : %.cpp
 	@c++ $(CFLAGS) -c $<
@@ -47,7 +49,8 @@ C:::::C                P::::P              P::::P                 0:::::0     0:
         CCCCCCCCCCCCCPPPPPPPPPP          PPPPPPPPPP                    000000000          000000000     \n\
                                                                                                         \n\
                                                                                                         \n\
-                                                                           $(RED) exercise 01    by: abouabra \n\
+                                                                           $(RED) exercise 02    by: abouabra \n\
                                                                                                         \n$(RESET)"
+
 
 .PHONY: all clean fclean re
