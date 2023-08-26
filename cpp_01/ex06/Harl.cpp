@@ -48,17 +48,13 @@ void Harl::complain( std::string level )
     switch (complain_level)
     {
         case 0:
-            if(complain_level == 0)
-                (this->*ptr[0])();
+            (this->*ptr[0])();
         case 1:
-            if(complain_level <= 1)
-                (this->*ptr[1])();
+            (this->*ptr[1])();
         case 2:
-            if(complain_level <= 2)
-                (this->*ptr[2])();
+            (this->*ptr[2])();
         case 3:
-            if(complain_level <= 3)
-                (this->*ptr[3])();
+            (this->*ptr[3])();
             break;
         default:
             std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
