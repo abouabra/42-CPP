@@ -12,10 +12,8 @@ PhoneBook::~PhoneBook()
 }
 std::string set_string(std::string text)
 {
-	if(text.length() == 10)
-		return text;
 	if(text.length() > 10)
-			text = text.substr(0,9).append(".");
+		text = text.substr(0,9).append(".");
 	return text;
 }
 Contact get_contact_info(void)
