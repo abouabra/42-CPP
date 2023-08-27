@@ -31,7 +31,7 @@ void	Harl::warning( void )
 void	Harl::error( void )
 {
 	std::cout << "[ ERROR ]" << std::endl;
-	std::cout << "This is unacceptable! I want to speak to the manager now." << std::endl;
+	std::cout << "This is unacceptable! I want to speak to the manager now." << std::endl << std::endl;
 }
 
 
@@ -49,5 +49,5 @@ void Harl::complain( std::string level )
         }
     }
     if(i == 4)
-        std::cout << "UNKNOWN LEVEL" << std::endl;
+        std::cout  << "UNKNOWN LEVEL" << std::endl << std::endl;
 }

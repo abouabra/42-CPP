@@ -1,4 +1,4 @@
-SRC = main.cpp
+SRC = Zombie.cpp      main.cpp        zombieHorde.cpp
 
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = -Wall -Wextra -Werror -std=c++98
@@ -48,7 +48,7 @@ C:::::C                P::::P              P::::P                 0:::::0     0:
         CCCCCCCCCCCCCPPPPPPPPPP          PPPPPPPPPP                    000000000     111111111111       \n\
                                                                                                         \n\
                                                                                                         \n\
-                                                                     $(RED) exercise 02    by: abouabra       \n\
+                                                                     $(RED) exercise 01    by: abouabra       \n\
                                                                                                         \n$(RESET)"
 
 .PHONY: all clean fclean re
