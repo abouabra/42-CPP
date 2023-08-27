@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
-#include <sys/_types/_size_t.h>
 
 int main(int ac,char **av)
 {
