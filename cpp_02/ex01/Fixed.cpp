@@ -39,20 +39,20 @@ void Fixed::setRawBits( int const raw )
 Fixed::Fixed(const int num)
 {
     std::cout << "Int constructor called" << std::endl;
-    this->fixed = num * (2 << (this->bits -1));
+    this->fixed = num * (1 << this->bits);
 }
 Fixed::Fixed(const float num)
 {
     std::cout << "Float constructor called" << std::endl;
 
-    this->fixed = std::roundf(num * (2 << (this->bits -1)));
+    this->fixed = std::roundf(num * (1 << this->bits));
 }
 
 int Fixed::toInt( void ) const
 {
     int ret;
 
-    ret = this->fixed / (2 << (this->bits -1));
+    ret = this->fixed / (1 << this->bits);
     return ret;
 }
 
@@ -60,7 +60,7 @@ float Fixed::toFloat( void ) const
 {
     float ret;
 
-    ret = (float)this->fixed / (2 << (this->bits -1));
+    ret = (float)this->fixed / (1 << this->bits);
     return ret;
 }
 

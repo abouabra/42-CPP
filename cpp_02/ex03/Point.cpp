@@ -5,7 +5,7 @@ Point::Point():x(Fixed()), y(Fixed())
 {
     std::cout << "Default constructor called" << std::endl;
 }
-Point::Point(Fixed x, Fixed y):x(Fixed(x)), y(Fixed(y))
+Point::Point(Fixed X, Fixed Y):x(X), y(Y)
 {
 
 }
@@ -18,12 +18,7 @@ Point::Point(const Point &obj)
 
 Point& Point::operator=(const Point &obj)
 {
-    // std::cout << "Copy assignment operator called" << std::endl;
-    if (this != &obj)
-    {
-        // x = obj.x;
-        // y = obj.y;
-    }
+    (void) obj;
     return *this;
 }
 
