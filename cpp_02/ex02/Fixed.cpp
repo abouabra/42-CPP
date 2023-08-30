@@ -69,7 +69,6 @@ std::ostream &operator << (std::ostream &out, const Fixed &fixed)
     return out;
 }
 
-// bool operator < (Fixed const &arg1,Fixed const &arg2)
 bool Fixed::operator < (const Fixed &arg2) const
 {
     if(this->getRawBits() < arg2.getRawBits())
