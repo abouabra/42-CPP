@@ -1,4 +1,4 @@
-SRC = main.cpp Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp
+SRC = main.cpp AMateria.cpp
 
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = #-Wall -Wextra -Werror -std=c++98
