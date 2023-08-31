@@ -13,10 +13,6 @@ class FragTrap : virtual public ClapTrap {
         ~FragTrap();
         
         void highFivesGuys();
-        int getHP();
-        int getEP();
-        int getAD();
-        std::string getName();
 };
 
 #endif

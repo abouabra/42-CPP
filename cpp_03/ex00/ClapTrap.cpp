@@ -65,6 +65,7 @@ void ClapTrap::takeDamage(unsigned int amount)
         {
             std::cout << "ClapTrap " << Name << " took " << amount << " points of damage! and has no HitPoints left !!!" << std::endl;
             HitPoints = 0;
+            EnergyPoints--;
         }
     }
     else

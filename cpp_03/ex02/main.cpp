@@ -5,16 +5,16 @@
 
 int	main()
 {
-	ClapTrap baanni;
-	ScavTrap ayman("Ayman");
-	FragTrap taib("Taib");
+	ClapTrap *FT = new FragTrap("Frag");
+	ClapTrap *ST = new ClapTrap("Clap");
 
-	std::cout << "Hp: " << ayman.getHP() << " Ep: " << ayman.getEP() << " Ad: " << ayman.getAD() << " Name: " << ayman.getName() << std::endl;
-	std::cout << "Hp: " << baanni.getHP() << " Ep: " << baanni.getEP() << " Ad: " << baanni.getAD() << " Name: " << baanni.getName() << std::endl;
-	std::cout << "Hp: " << taib.getHP() << " Ep: " << taib.getEP() << " Ad: " << taib.getAD() << " Name: " << taib.getName() << std::endl;
+	ST->attack("taib");
 	
-	baanni.attack("Ayman");
-	ayman.guardGate();
-	taib.highFivesGuys();
+	delete FT;
+	delete ST;
+	
+	FragTrap obj("GG");
+	obj.highFivesGuys();
+
 	return 0;
 }

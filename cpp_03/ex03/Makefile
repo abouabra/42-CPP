@@ -3,7 +3,7 @@ SRC = main.cpp FragTrap.cpp ClapTrap.cpp ScavTrap.cpp DiamondTrap.cpp
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-NAME = FragTrap
+NAME = DiamondTrap
 
 RED = \033[1;31m
 GREEN = \033[1;32m

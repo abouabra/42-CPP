@@ -18,6 +18,7 @@ ClapTrap::ClapTrap(std::string name)
 }
 ClapTrap::ClapTrap(std::string name, int EP, int AD, int HP)
 {
+    std::cout << "ClapTrap Name constructor called" << std::endl;
     Name = name;
     HitPoints = HP;
     EnergyPoints = EP;
@@ -71,6 +72,7 @@ void ClapTrap::takeDamage(unsigned int amount)
         else
         {
             std::cout << "ClapTrap " << Name << " took " << amount << " points of damage! and has no HitPoints left !!!" << std::endl;
+            EnergyPoints--;
             HitPoints = 0;
         }
     }

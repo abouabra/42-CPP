@@ -3,19 +3,12 @@
 
 int	main()
 {
-	ClapTrap naruto;
-	ScavTrap ayman("Ayman");
+	ClapTrap *CT = new ScavTrap("Scav");
+	ClapTrap *ST = new ClapTrap("Clap");
+	CT->attack("ayman ct");
+	ST->attack("ayman st");
 
-	std::cout << "Hp: " << naruto.getHP() << " Ep: " << naruto.getEP() << " Ad: " << naruto.getAD() << " Name: " << naruto.getName() << std::endl;
-	std::cout << "Hp: " << ayman.getHP() << " Ep: " << ayman.getEP() << " Ad: " << ayman.getAD() << " Name: " << ayman.getName() << std::endl;
-
-	naruto.attack("Ayman");
-	ayman.guardGate();
-	ayman.attack("naruto");
-	ayman.takeDamage(99);
-
-	std::cout << "Hp: " << naruto.getHP() << " Ep: " << naruto.getEP() << " Ad: " << naruto.getAD() << " Name: " << naruto.getName() << std::endl;
-	std::cout << "Hp: " << ayman.getHP() << " Ep: " << ayman.getEP() << " Ad: " << ayman.getAD() << " Name: " << ayman.getName() << std::endl;
-
+	delete CT;
+	delete ST;
 	return 0;
 }

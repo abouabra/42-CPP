@@ -14,12 +14,13 @@ public:
     ClapTrap(std::string name);
     ClapTrap(const ClapTrap &instance);
     ClapTrap& operator=(const ClapTrap &instance);
-    ~ClapTrap();
+    virtual ~ClapTrap();
 
-    void attack(const std::string& target);
+    virtual void attack(const std::string& target);
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
     ClapTrap(std::string name, int EP, int AD, int HP);
+
 };
 
 #endif

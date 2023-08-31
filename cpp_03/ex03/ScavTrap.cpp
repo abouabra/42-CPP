@@ -8,7 +8,7 @@ ScavTrap::ScavTrap() : ClapTrap("Default",50,20,100)
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name ,50,20,100)
 {
-    std::cout << "ScavTrap Named constructor called" << std::endl;
+    std::cout << "ScavTrap Name constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap &instance)
@@ -47,21 +47,4 @@ void ScavTrap::attack(const std::string& target)
     }
     else
         std::cout << "ScavTrap " << Name << " has no Energy or HitPoints Left." << std::endl;
-}
-
-int ScavTrap::getHP()
-{
-    return 100;
-}
-int ScavTrap::getAD()
-{
-    return 20;
-}
-int ScavTrap::getEP()
-{
-    return 50;
-}
-std::string ScavTrap::getName()
-{
-    return this->Name;
 }

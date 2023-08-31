@@ -8,7 +8,7 @@ FragTrap::FragTrap() : ClapTrap("Default",100,30,100)
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name ,100,30,100)
 {
-    std::cout << "FragTrap Named constructor called" << std::endl;
+    std::cout << "FragTrap Name constructor called" << std::endl;
 }
 
 FragTrap::FragTrap(const FragTrap &instance)
@@ -35,7 +35,5 @@ FragTrap::~FragTrap()
 
 void FragTrap::highFivesGuys()
 {
-    std::cout << "FragTrap "<< this->Name <<" request high fives (press inter)" << std::endl;
-    std::string line;
-    getline(std::cin,line);
+    std::cout << "FragTrap "<< this->Name <<" sends you a positive high five" << std::endl;
 }
