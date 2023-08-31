@@ -15,5 +15,6 @@ int	main()
 	ClapTrap *D = new DiamondTrap("Diamond");
 	D->attack("ME");
 	delete D;
+	
 	return 0;
 }
