@@ -13,7 +13,7 @@ Cure& Cure::operator=(const Cure &instance)
 {
     if(this != &instance)
     {
-        
+        type = instance.type;
     }
     return *this;
 }
