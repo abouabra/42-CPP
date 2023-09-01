@@ -1,9 +1,9 @@
-SRC = main.cpp AMateria.cpp
+SRC = AMateria.cpp  Character.cpp  Cure.cpp  Ice.cpp  main.cpp  MateriaSource.cpp
 
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = #-Wall -Wextra -Werror -std=c++98
 
-NAME = Brain
+NAME = AMateria
 
 RED = \033[1;31m
 GREEN = \033[1;32m
@@ -48,7 +48,7 @@ C:::::C                P::::P              P::::P                 0:::::0     0:
         CCCCCCCCCCCCCPPPPPPPPPP          PPPPPPPPPP                    000000000             4444444444\n\
                                                                                                         \n\
                                                                                                         \n\
-                                                                     $(RED) exercise 02    by: abouabra       \n\
+                                                                     $(RED) exercise 03    by: abouabra       \n\
                                                                                                         \n$(RESET)"
                                                                                                   
 .PHONY: all clean fclean re
