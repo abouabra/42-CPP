@@ -12,9 +12,7 @@ Ice::Ice(const Ice &instance):AMateria("ice")
 Ice& Ice::operator=(const Ice &instance)
 {
     if(this != &instance)
-    {
         type = instance.type;
-    }
     return *this;
 }
 Ice::~Ice()

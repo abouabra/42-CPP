@@ -1,7 +1,6 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
-// #include "AMateria.hpp"
 #include "ICharacter.hpp"
 #include <iostream>
 #include <string>
@@ -10,8 +9,7 @@ class Character: public ICharacter {
 private:
     std::string name;
     AMateria *inventory[4];
-    AMateria **all_slots;
-    int slot_index;
+    AMateria *floor[4];
 public:
     Character();
     Character(std::string Name);

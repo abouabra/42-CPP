@@ -1,7 +1,6 @@
 #ifndef MATERIASOURCE_HPP
 #define MATERIASOURCE_HPP
 
-// #include "AMateria.hpp"
 #include "IMateriaSource.hpp"
 #include <iostream>
 
@@ -9,8 +8,6 @@ class MateriaSource: public IMateriaSource {
 private:
     std::string type;
     AMateria *learnedMaterias[4];
-    AMateria **all_slots;
-    int slot_index;
 public:
     MateriaSource();
     MateriaSource(std::string Type);

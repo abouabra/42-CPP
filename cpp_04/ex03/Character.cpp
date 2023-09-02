@@ -4,17 +4,21 @@
 Character::Character()
 {
     name = "Default";
-    slot_index = 0;
     for(int i=0; i < 4; i++)
+    {
         inventory[i] = NULL;
+        floor[i] = NULL;
+    }
 }
 
 Character::Character(std::string Name)
 {
     name = Name;
-    slot_index = 0;
     for(int i=0; i < 4; i++)
+    {
         inventory[i] = NULL;
+        floor[i] = NULL;
+    }
 }
 
 Character::Character(const Character &obj)
@@ -23,22 +27,10 @@ Character::Character(const Character &obj)
     for (int i = 0; i < 4; i++)
     {
         if (obj.inventory[i])
-        {
             inventory[i] = obj.inventory[i]->clone();
-            for(int j=0; j < slot_index; j++)
-                if(all_slots[j] == obj.inventory[i])
-                    return;
-            slot_index++;
-            AMateria **tmp_slots = new AMateria*[slot_index];
-            int j=-1;
-            while(++j < slot_index -1)
-                tmp_slots[j] = all_slots[j];
-            tmp_slots[j] = obj.inventory[i];
-            delete [] all_slots;
-            all_slots = tmp_slots;
-        }
         else
             inventory[i] = NULL;
+        floor[i] = NULL;
     }
 }
 
@@ -49,24 +41,13 @@ Character& Character::operator=(const Character &obj)
         name = obj.name;
         for (int i = 0; i < 4; i++)
         {
-            // delete inventory[i];
+            if(inventory[i])
+                delete inventory[i];
             if (obj.inventory[i])
-            {
                 inventory[i] = obj.inventory[i]->clone();
-                for(int j=0; j < slot_index; j++)
-                    if(all_slots[j] == obj.inventory[i])
-                        return *this;
-                slot_index++;
-                AMateria **tmp_slots = new AMateria*[slot_index];
-                int j=-1;
-                while(++j < slot_index -1)
-                    tmp_slots[j] = all_slots[j];
-                tmp_slots[j] = obj.inventory[i];
-                delete [] all_slots;
-                all_slots = tmp_slots;
-            }
             else
                 inventory[i] = NULL;
+            floor[i] = NULL;
         }
     }
     return *this;
@@ -74,40 +55,37 @@ Character& Character::operator=(const Character &obj)
 
 Character::~Character()
 {
-    delete [] all_slots;
-    // for(int i = 0;i < 4; i++)
-    //     delete inventory[i];
+    for(int i = 0;i < 4; i++)
+    {
+        if(inventory[i])
+            delete inventory[i];
+        if(floor[i])
+            delete floor[i];
+    }
 }
 
 std::string const & Character::getName() const
 {
     return name;
 }
+
 void Character::equip(AMateria* m)
 {
+    for(int i = 0;i < 4; i++)
+    {
+        if(floor[i])
+        {
+            delete floor[i];
+            floor[i] = NULL;
+        }
+    }
     int i=-1;
     while(++i < 4 && inventory[i])
         ;
     if(i <= 4)
-    {
         inventory[i] = m;
-
-        for(int i=0; i < slot_index; i++)
-            if(all_slots[i] == m)
-                return;
-        slot_index++;
-        AMateria **tmp_slots = new AMateria*[slot_index];
-        int j=-1;
-        while(++j < slot_index -1)
-            tmp_slots[j] = all_slots[j];
-        tmp_slots[j] = m;
-        delete [] all_slots;
-        all_slots = tmp_slots;
-    }
     else
-    {
         std::cout << "inventory full" << std::endl;
-    }
 }
 
 void Character::unequip(int idx)
@@ -119,6 +97,10 @@ void Character::unequip(int idx)
             std::cout << "item alredy inequiped" << std::endl;
             return;
         }
+        int i=-1;
+        while(++i < 4 && floor[i])
+            ;
+        floor[i] = inventory[idx];
         inventory[idx] = NULL;
     }
     else
