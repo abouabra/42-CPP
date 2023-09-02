@@ -11,7 +11,7 @@ public:
     Cat& operator=(const Cat &instance);
     ~Cat();
     
-    void makeSound();
+    void makeSound() const;
     std::string getType();
 };
 

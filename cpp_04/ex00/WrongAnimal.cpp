@@ -31,7 +31,7 @@ WrongAnimal::~WrongAnimal()
     std::cout << "WrongAnimal Destructor called" << std::endl;
 }
 
-void WrongAnimal::makeSound()
+void WrongAnimal::makeSound() const
 {
     std::cout << "WrongAnimal Sound" << std::endl;
 }

@@ -14,6 +14,7 @@ int main()
 
     WrongAnimal *wrong_animal = new WrongAnimal();
     WrongAnimal *wrong_cat = new WrongCat();
+    WrongCat *wrong_cat2 = new WrongCat();
 
     std::cout << std::endl;
     
@@ -25,6 +26,7 @@ int main()
 
     std::cout << "Type: " <<  wrong_animal->getType() << std::endl;
     std::cout << "Type: " <<  wrong_cat->getType() << std::endl;
+    std::cout << "Type: " <<  wrong_cat2->getType() << std::endl;
 
     std::cout << std::endl;
 
@@ -36,11 +38,13 @@ int main()
     
     wrong_animal->makeSound();
     wrong_cat->makeSound();
+    wrong_cat2->makeSound();
     std::cout << std::endl;
 
 
     delete wrong_animal;
     delete wrong_cat;
+    delete wrong_cat2;
 
     std::cout << std::endl;
 

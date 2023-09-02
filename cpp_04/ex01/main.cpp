@@ -20,9 +20,16 @@ int main()
             animal[i] = new Dog();
         
     }
+    std::cout << std::endl;
+
     for(int i=0;i<10;i++)
         std::cout << animal[i]->getType() << std::endl;
 
+    std::cout << std::endl;
+    Dog basic;
+    {
+        Dog tmp = basic;
+    }
     std::cout << std::endl;
 
     for(int i=0;i<10;i++)
