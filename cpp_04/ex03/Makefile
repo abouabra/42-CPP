@@ -1,7 +1,7 @@
 SRC = AMateria.cpp  Character.cpp  Cure.cpp  Ice.cpp  main.cpp  MateriaSource.cpp
 
 OSRC=$(SRC:.cpp=.o)
-CFLAGS = #-Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 NAME = AMateria
 

@@ -44,16 +44,27 @@ Character::Character(const Character &obj)
 
 Character& Character::operator=(const Character &obj)
 {
-
     if (this != &obj)
     {
         name = obj.name;
         for (int i = 0; i < 4; i++)
         {
-            delete inventory[i];
-
+            // delete inventory[i];
             if (obj.inventory[i])
+            {
                 inventory[i] = obj.inventory[i]->clone();
+                for(int j=0; j < slot_index; j++)
+                    if(all_slots[j] == obj.inventory[i])
+                        return *this;
+                slot_index++;
+                AMateria **tmp_slots = new AMateria*[slot_index];
+                int j=-1;
+                while(++j < slot_index -1)
+                    tmp_slots[j] = all_slots[j];
+                tmp_slots[j] = obj.inventory[i];
+                delete [] all_slots;
+                all_slots = tmp_slots;
+            }
             else
                 inventory[i] = NULL;
         }

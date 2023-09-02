@@ -8,7 +8,7 @@
 class MateriaSource: public IMateriaSource {
 private:
     std::string type;
-    AMateria *inventory[4];
+    AMateria *learnedMaterias[4];
     AMateria **all_slots;
     int slot_index;
 public:
