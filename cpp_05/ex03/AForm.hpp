@@ -20,7 +20,7 @@ public:
 	class GradeTooHighException: public std::exception
 	{
 		public:
-			const char * what() const _NOEXCEPT
+			const char * what() const throw ()
 			{
 				return "Form Error: GradeTooHigh";
 			}
@@ -28,7 +28,7 @@ public:
 	class GradeTooLowException: public std::exception
 	{
 		public:
-			const char * what() const _NOEXCEPT
+			const char * what() const throw ()
 			{
 				return "Form Error: GradeTooLow";
 			}
@@ -36,7 +36,7 @@ public:
 	class NotSignedException: public std::exception
 	{
 		public:
-			const char * what() const _NOEXCEPT
+			const char * what() const throw ()
 			{
 				return "Form Error: NotSigned";
 			}
