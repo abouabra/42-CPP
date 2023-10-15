@@ -3,23 +3,6 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
-#include <exception>
-
-// int main()
-// {
-//     try
-//     {
-//         Bureaucrat b1("Nadia Fettah", 27);
-//         ShrubberyCreationForm f1("home");
-//         f1.beSigned(b1);
-//         b1.executeForm(f1);
-//     }
-//     catch(std::exception &e)
-//     {
-//         std::cout << e.what() << std::endl;
-//     }
-//     return 0;
-// }
 
 int	main( void )
 {
