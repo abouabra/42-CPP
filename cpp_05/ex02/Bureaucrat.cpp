@@ -25,7 +25,7 @@ std::string Bureaucrat::getName()
 {
 	return name;
 }
-int		Bureaucrat::getGrade()
+int		Bureaucrat::getGrade() const
 {
 	return grade;
 }
@@ -40,7 +40,7 @@ void	Bureaucrat::decrement()
 	if(++grade > 150)
 		throw GradeTooLowException();
 }
-void	Bureaucrat::signForm(Form &form)
+void	Bureaucrat::signForm(AForm &form)
 {
 	try
 	{
@@ -57,4 +57,17 @@ std::ostream& operator<<(std::ostream &out, Bureaucrat &bureaucrat)
 {
 	out << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade();
 	return out;
+}
+
+void	Bureaucrat::executeForm(AForm const & form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << name << " executed " << form.getName() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << name << " couldn't execute " << form.getName() << " because " << e.what() << std::endl;
+	}
 }
