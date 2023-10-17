@@ -12,8 +12,10 @@ YELLOW = \033[1;33m
 RESET = \033[0m
 
 all: $(NAME)
+	@clear
 
-$(NAME): ascci_art $(OSRC)
+# $(NAME): ascci_art $(OSRC)
+$(NAME): $(OSRC)
 	@c++ $(CFLAGS) $(OSRC) -o $@
 
 %.o : %.cpp
