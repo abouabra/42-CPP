@@ -59,7 +59,7 @@ int detect_type(const char *s)
 	if(str.find_first_not_of("-0123456789.f") == std::string::npos)
 	{
 		if(count_occurence(str, '.') == 1
-			&&	std::count(str.begin(), str.end(), 'f') == 1
+			&&	count_occurence(str, 'f') == 1
 			&&	str[str.length() - 1] == 'f')
 			return FLOAT;
 	}
