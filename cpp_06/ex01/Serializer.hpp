@@ -9,6 +9,7 @@ typedef struct s_Data
 	int n2;
 	std::string name;
 } Data;
+typedef unsigned long           uintptr_t;
 
 class Serializer
 {

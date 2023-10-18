@@ -22,7 +22,7 @@ Base::Base(const Base &obj)
 
 Base * generate(void)
 {
-	srand(time(0)); 
+	srand(clock()); 
 	int choice = rand() % 3;
 	if (choice == 0)
 		return (new A);
