@@ -1,7 +1,5 @@
 #include "ScalarConverter.hpp"
-#include <algorithm>
-#include <cctype>
-#include <string>
+
 
 ScalarConverter::ScalarConverter()
 {
@@ -122,7 +120,6 @@ void display_double(char *str, int type)
 void ScalarConverter::convert(char *str)
 {
 	int type = detect_type(str);
-	std::cout << "type: " << type << std::endl << std::endl;
 
 	display_char(str, type);
 	display_int(str, type);
