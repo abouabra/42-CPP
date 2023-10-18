@@ -1,4 +1,5 @@
 #include "ScalarConverter.hpp"
+#include <cstdlib>
 
 
 ScalarConverter::ScalarConverter()
@@ -26,6 +27,17 @@ int check_for_special_cases(std::string str)
 		return FLOAT;
 	return (-1);
 }
+int count_occurence(std::string str, char c)
+{
+	int count = 0;
+	for(size_t i = 0; i < str.length(); i++)
+	{
+		if(str[i] == c)
+			count++;
+	}
+	return (count);
+}
+
 int detect_type(const char *s)
 {
 	std::string	str(s);
@@ -40,13 +52,13 @@ int detect_type(const char *s)
 		return INT;
 	if(str.find_first_not_of("-0123456789.") == std::string::npos)
 	{
-		if(std::count(str.begin(), str.end(), '.') == 1
+		if(count_occurence(str, '.') == 1
 			&& str[str.length() - 1] != '.')
 			return DOUBLE;
 	}
 	if(str.find_first_not_of("-0123456789.f") == std::string::npos)
 	{
-		if(std::count(str.begin(), str.end(), '.') == 1
+		if(count_occurence(str, '.') == 1
 			&&	std::count(str.begin(), str.end(), 'f') == 1
 			&&	str[str.length() - 1] == 'f')
 			return FLOAT;
@@ -58,7 +70,7 @@ void display_char(char *str, int type)
 	char c;
 	std::string s(str);
 	
-	c = static_cast<char>(std::atoi(str));
+	c = static_cast<char>(atoi(str));
 	if(check_for_special_cases(s) != -1 || type == UNKNOWN)
 		std::cout << "char: impossible" << std::endl;
 	else if(s.length() == 1 && !std::isdigit(s[0]))
@@ -74,7 +86,7 @@ void display_int(char *str, int type)
 	int num;
 	std::string s(str);
 
-	num = static_cast<int>(std::atoi(str));
+	num = static_cast<int>(atoi(str));
 	if(check_for_special_cases(s) != -1 || type == UNKNOWN)
 		std::cout << "int: impossible" << std::endl;
 	else if(type == CHAR)
@@ -95,7 +107,7 @@ void display_float(char *str, int type)
 	float num;
 	std::string s(str);
 
-	num = static_cast<float>(std::atof(str));
+	num = static_cast<float>(atof(str));
 	if(check_for_special_cases(s) != -1 || type == UNKNOWN)
 		std::cout << "float: impossible" << std::endl;
 	else if(type == CHAR)
@@ -109,7 +121,7 @@ void display_double(char *str, int type)
 	double num;
 	std::string s(str);
 
-	num = static_cast<double>(std::atof(str));
+	num = static_cast<double>(atof(str));
 	if(check_for_special_cases(s) != -1 || type == UNKNOWN)
 		std::cout << "double: impossible" << std::endl;
 	else if(type == CHAR)
