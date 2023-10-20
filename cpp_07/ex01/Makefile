@@ -3,7 +3,7 @@ SRC = main.cpp
 OSRC=$(SRC:.cpp=.o)
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-NAME = whatever
+NAME = iter
 
 RED = \033[1;31m
 GREEN = \033[1;32m

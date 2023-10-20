@@ -14,7 +14,7 @@ void swap(Arg &a, Arg &b)
 }
 
 template<typename Arg>
-Arg& min(Arg &a, Arg &b)
+const Arg& min(const Arg &a, const Arg &b)
 {
 	if(b <= a)
 		return b;
@@ -22,7 +22,7 @@ Arg& min(Arg &a, Arg &b)
 }
 
 template<typename Arg>
-Arg& max(Arg &a, Arg &b)
+const Arg& max(const Arg &a, const Arg &b)
 {
 	if(a > b)
 		return a;

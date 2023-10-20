@@ -3,16 +3,22 @@
 
 int main( void )
 {
-    size_t len  = 10;
-    std::string arr[len];
+    size_t len  = 5;
+    std::string str_arr[len];
+    int int_arr[len];
+    float float_arr[len];
+
     for(size_t i = 0;i < len; i++)
     {
-        arr[i] = "Hello: " + std::to_string(i);
-        // arr[i] = i;
-        // arr[i] = i + i / 10.0f;
-
+        str_arr[i] = "Hello world!";
+        int_arr[i] = i;
+        float_arr[i] = i + i / 10.0f;
     }
-    iter(arr, len, &print);
+    iter(str_arr, len, &print);
+    std::cout << std::endl;
+    iter(int_arr, len, &print);
+    std::cout << std::endl;
+    iter(float_arr, len, &print);
 
     return 0;
 }
