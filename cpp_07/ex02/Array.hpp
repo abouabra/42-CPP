@@ -1,7 +1,6 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-#include <cstddef>
 #include <iostream>
 #include <exception>
 
@@ -32,8 +31,6 @@ public:
         arr = new T[arr_size];
         for(size_t i = 0; i < arr_size; i++)
             arr[i] = obj.arr[i];
-        // arr = NULL;
-        // *this = obj;
     }
     Array& operator = (Array &obj)
     {
