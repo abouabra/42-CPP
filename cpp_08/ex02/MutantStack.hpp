@@ -22,9 +22,8 @@ class MutantStack : public std::stack<T>
 		}
 		MutantStack& operator=(const MutantStack &copy) 
 		{
-			if (this == &copy)
-				return (*this);
-			std::stack<T>::operator=(copy);
+			if (this != copy)
+				this->c = copy.c;
 			return (*this);
 		}
 
@@ -38,38 +37,38 @@ class MutantStack : public std::stack<T>
 
 		iterator       begin()
 		{
-			return (std::stack<T>::c.begin());
+			return (this->c.begin());
 		}
 		iterator       end()
 		{
-			return (std::stack<T>::c.end());
+			return (this->c.end());
 		}
 
 		reverse_iterator       rbegin()
 		{
-			return (std::stack<T>::c.rbegin());
+			return (this->c.rbegin());
 		}
 		reverse_iterator       rend()
 		{
-			return (std::stack<T>::c.rend());
+			return (this->c.rend());
 		}
 
 		const_iterator         cbegin()
 		{
-			return (std::stack<T>::c.cbegin());
+			return (this->c.cbegin());
 		}
 		const_iterator         cend()
 		{
-			return (std::stack<T>::c.cend());
+			return (this->c.cend());
 		}
 
 		const_reverse_iterator crbegin()
 		{
-			return (std::stack<T>::c.crbegin());
+			return (this->c.crbegin());
 		}
 		const_reverse_iterator crend()
 		{
-			return (std::stack<T>::c.crend());
+			return (this->c.crend());
 		}
 };
 
