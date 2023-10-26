@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <cstdlib>
 
 
 BitcoinExchange::BitcoinExchange(std::string input_filename)
@@ -157,6 +158,11 @@ bool check_value_validity(std::string value, int i, int x)
 	if(i && (value.find('.') == value.length() - 1 || value.find('.') == 0))
 	{
 		std::cout << "Error: Not a valid Number => " << value << std::endl;
+		return false;
+	}
+	if(i && x && atof(value.c_str()) > 1000)
+	{
+		std::cout << "Error: Number Too big => " << value << std::endl;
 		return false;
 	}
 	if(i && (value.length() > 10 || atof(value.c_str()) > INT_MAX))
