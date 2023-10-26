@@ -2,9 +2,12 @@
 #define BitcoinExchange_HPP
 
 #include <iostream>
-#include <map>
 #include <algorithm>
-
+#include <cstdlib>
+#include <exception>
+#include <fstream>
+#include <map>
+#include <sstream>
 class BitcoinExchange
 {
 	private:
@@ -18,12 +21,6 @@ class BitcoinExchange
 		BitcoinExchange &operator=(const BitcoinExchange &other);
 		void run();
 };
-
-
-std::map<int, float> read_and_parse_data_file(std::string filename);
-void read_and_parse_input_file(std::string filename, std::map<int, float> data_map);
-
-std::string& trim(std::string& s);
 
 enum e_date
 {

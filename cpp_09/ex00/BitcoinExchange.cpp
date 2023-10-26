@@ -1,11 +1,5 @@
 #include "BitcoinExchange.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <exception>
-#include <fstream>
-#include <map>
-#include <sstream>
-#include <string>
+
 
 BitcoinExchange::BitcoinExchange(std::string input_filename)
 {
@@ -35,11 +29,23 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 	return *this;
 }
 
-void BitcoinExchange::run()
+std::string& rtrim(std::string& s)
 {
-	std::map<int, float> data_map = read_and_parse_data_file(data_filename);
-	read_and_parse_input_file(input_filename, data_map);
-	// std::map<std::string, std::string> input_map = read_and_parse_file(input_filename);
+	const char* t = " \t\n\r\f\v";
+    s.erase(s.find_last_not_of(t) + 1);
+    return s;
+}
+
+std::string& ltrim(std::string& s)
+{
+	const char* t = " \t\n\r\f\v";
+    s.erase(0, s.find_first_not_of(t));
+    return s;
+}
+
+std::string& trim(std::string& s)
+{
+    return ltrim(rtrim(s));
 }
 
 bool is_valid_date(std::map<int,int> date)
@@ -128,18 +134,15 @@ bool check_value_validity(std::string value, int i, int x)
 		std::cout << "Error: Empty Value => " << value << std::endl;
 		return false;
 	}
-	if(!i)
+	if(!i && !x && value != "exchange_rate")
 	{
-		if(x == 0 && value != "exchange_rate")
-		{
-			std::cout << "Error: Invalid Header => " << value << std::endl;
-			return false;
-		}
-		else if(x == 1 && value != "value")
-		{
-			std::cout << "Error: Invalid Header => " << value << std::endl;
-			return false;
-		}
+		std::cout << "Error: Invalid Header => " << value << std::endl;
+		return false;
+	}
+	else if(!i && x && value != "value")
+	{
+		std::cout << "Error: Invalid Header => " << value << std::endl;
+		return false;
 	}
 	if(i && value.find_first_not_of("0123456789.") != std::string::npos)
 	{
@@ -195,6 +198,7 @@ std::map<int, float> read_and_parse_data_file(std::string filename)
 
 			if(!check_key_validity(key, i) || !check_value_validity(value, i, 0))
 				throw std::exception();
+
 			int date = convert_to_date(key);
 			float exchange_rate = atof(value.c_str());
 			map[date] = exchange_rate;
@@ -202,9 +206,6 @@ std::map<int, float> read_and_parse_data_file(std::string filename)
 		}
 	}
 	catch (std::exception &e) { std::cout << "Error: Bad Data file" << std::endl; exit(1);}
-
-	// for(std::map<std::string, std::string>::iterator it = map.begin(); it != map.end(); it++)
-	// 	std::cout << it->first << " => " << it->second << std::endl;
 	return map;
 }
 
@@ -215,9 +216,8 @@ void find_nearest_date(std::map<int, float> data_map, int date, std::string key,
 	--it;
 	std::cout << key << " => " << it->second * atof(value.c_str()) << std::endl;
 }
-void read_and_parse_input_file(std::string filename, std::map<int, float> data_map)
+void parse_input_file(std::string filename, std::map<int, float> data_map)
 {
-	// std::map<std::string, std::string> map;
 	std::fstream file;
 	std::string line ;
 	int i = 0;
@@ -226,6 +226,7 @@ void read_and_parse_input_file(std::string filename, std::map<int, float> data_m
 		file.open(filename, std::ios::in);
 		if (!file.is_open())
 			throw std::exception();
+
 		while (std::getline(file, line)) {
 			int seperator = line.find('|');
 			int count = std::count(line.begin(), line.end(), '|');
@@ -262,22 +263,8 @@ void read_and_parse_input_file(std::string filename, std::map<int, float> data_m
 	catch (std::exception &e) { std::cout << "Error: Bad input file" << std::endl; exit(1);}
 }
 
-
-std::string& rtrim(std::string& s)
+void BitcoinExchange::run()
 {
-	const char* t = " \t\n\r\f\v";
-    s.erase(s.find_last_not_of(t) + 1);
-    return s;
-}
-
-std::string& ltrim(std::string& s)
-{
-	const char* t = " \t\n\r\f\v";
-    s.erase(0, s.find_first_not_of(t));
-    return s;
-}
-
-std::string& trim(std::string& s)
-{
-    return ltrim(rtrim(s));
+	std::map<int, float> data_map = read_and_parse_data_file(data_filename);
+	parse_input_file(input_filename, data_map);
 }
