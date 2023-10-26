@@ -22,7 +22,7 @@ class MutantStack : public std::stack<T>
 		}
 		MutantStack& operator=(const MutantStack &copy) 
 		{
-			if (this != copy)
+			if (this != &copy)
 				this->c = copy.c;
 			return (*this);
 		}
