@@ -32,45 +32,45 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 std::string& rtrim(std::string& s)
 {
 	const char* t = " \t\n\r\f\v";
-    s.erase(s.find_last_not_of(t) + 1);
-    return s;
+	s.erase(s.find_last_not_of(t) + 1);
+	return s;
 }
 
 std::string& ltrim(std::string& s)
 {
 	const char* t = " \t\n\r\f\v";
-    s.erase(0, s.find_first_not_of(t));
-    return s;
+	s.erase(0, s.find_first_not_of(t));
+	return s;
 }
 
 std::string& trim(std::string& s)
 {
-    return ltrim(rtrim(s));
+	return ltrim(rtrim(s));
 }
 
 bool is_valid_date(std::map<int,int> date)
 {
 	//3 January 2009
 	if (date[year] > 2023 || date[year] < 2009) 
-    	return false; 
-    if (date[month] < 1 || date[month] > 12)
-    	return false; 
-    if (date[day] < 1 || date[day] > 31) 
-    	return false; 
+		return false; 
+	if (date[month] < 1 || date[month] > 12)
+		return false; 
+	if (date[day] < 1 || date[day] > 31) 
+		return false; 
   	if(date[year] == 2009 && date[month] == 1 && date[day] < 3)
-  		return false;
-    
+		return false;
+	
 	if (date[month] == 2) 
-    { 
-        if (date[year] % 4 == 0) 
-        	return (date[day] <= 29); 
-        else
-        	return (date[day] <= 28);
-    } 
+	{ 
+		if (date[year] % 4 == 0) 
+			return (date[day] <= 29); 
+		else
+			return (date[day] <= 28);
+	} 
 
-    // April, June, Sept, Nov
-    if (date[month] == 4 || date[month] == 6 || date[month] == 9 || date[month] == 11) 
-        return (date[day] <= 30);
+	// April, June, Sept, Nov
+	if (date[month] == 4 || date[month] == 6 || date[month] == 9 || date[month] == 11) 
+		return (date[day] <= 30);
 	return true;
 }
 bool check_key_validity(std::string key, int i)
@@ -185,7 +185,7 @@ std::map<int, float> read_and_parse_data_file(std::string filename)
 	int i = 0;
 
 	try {
-		file.open(filename, std::ios::in);
+		file.open(filename.c_str(), std::ios::in);
 		if (!file.is_open())
 			throw std::exception();
 		while (std::getline(file, line)) {
@@ -223,7 +223,7 @@ void parse_input_file(std::string filename, std::map<int, float> data_map)
 	int i = 0;
 
 	try {
-		file.open(filename, std::ios::in);
+		file.open(filename.c_str(), std::ios::in);
 		if (!file.is_open())
 			throw std::exception();
 

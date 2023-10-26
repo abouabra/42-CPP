@@ -8,6 +8,8 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <limits.h>
+
 class BitcoinExchange
 {
 	private:
