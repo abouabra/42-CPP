@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include <algorithm>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
@@ -132,14 +133,10 @@ std::vector<int> jacobstall_sequence(std::vector<int> &PendChain)
 {
 	int size = PendChain.size();
 	std::vector<int> jacob_seq;
-	int jacob_index = 3;
-	// std::cout << size << std::endl;
-	// std::cout << "jacobsthal: " << jacobsthal(3) << std::endl;
-	while (jacobsthal(jacob_index) < size -1)
-	{
-        jacob_seq.push_back(jacobsthal(jacob_index));
-        jacob_index++;
-	}
+
+	for(int jacob_index = 0; jacob_index <= size; jacob_index++)
+		jacob_seq.push_back(jacobsthal(jacob_index));
+	
 	return jacob_seq;
 }
 
@@ -181,24 +178,51 @@ void PmergeMe::merge_insertion_sort()
 
 	// since b1 < a1
 	mainChain.insert(mainChain.begin(), *PendChain.begin());
-	// PendChain.erase(PendChain.begin());
+	PendChain.erase(PendChain.begin());
 
 	
-	// std::cout << std::endl << "Step 4: " << std::endl;
-	// std::cout << "mainChain: " << std::endl;
-	// for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-	// 	std::cout << *it << " ";
+	std::cout << std::endl << "Step 4: " << std::endl;
+	std::cout << "mainChain: " << std::endl;
+	for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
+		std::cout << *it << " ";
 
-	// std::cout << std::endl << "PendChain: " << std::endl;
-	// for(std::vector<int>::iterator it = PendChain.begin(); it != PendChain.end(); it++)
-	// 	std::cout << *it << " ";
-	// std::cout << std::endl << std::endl;
+	std::cout << std::endl << "PendChain: " << std::endl;
+	for(std::vector<int>::iterator it = PendChain.begin(); it != PendChain.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl << std::endl;
 
 
 	std::vector<int> jacob_seq = jacobstall_sequence(PendChain);
-	// std::cout << "jacobstall_sequence: " << std::endl;
-	// for(std::vector<int>::iterator it = jacob_seq.begin(); it != jacob_seq.end(); it++)
-	// 	std::cout << *it << " ";
-	// std::cout << std::endl << std::endl;
+	std::cout << "jacobstall_sequence: " << std::endl;
+	for(std::vector<int>::iterator it = jacob_seq.begin(); it != jacob_seq.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+
+	for(;;)
+	{
+		std::vector<int>::iterator it2 = std::upper_bound(mainChain.begin(), mainChain.end(), *PendChain.begin());
+		mainChain.insert(it2, *PendChain.begin());
+		PendChain.erase(PendChain.begin());
+		if(PendChain.empty())
+			break;
+	}
+
+	std::cout << std::endl << "merge: " << std::endl;
+	for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl << std::endl;
+
+	if(!straggler.empty())
+	{
+		std::vector<int>::iterator it2 = std::upper_bound(mainChain.begin(), mainChain.end(), *straggler.begin());
+		mainChain.insert(it2, *straggler.begin());
+		straggler.erase(straggler.begin());
+	}
+
+	std::cout << std::endl << "adding straggler: " << std::endl;
+	for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl << std::endl;
 }
 // make re &&./PmergeMe 1 2 99 4 22 6 7 33 56 28 45
