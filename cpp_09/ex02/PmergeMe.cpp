@@ -21,6 +21,11 @@ PmergeMe::PmergeMe(char **av)
 				throw std::exception();
 			numbers.push_back(tmp);
 		}
+
+		for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
+			for(std::vector<int>::iterator it2 = it + 1; it2 != numbers.end(); it2++)
+				if(*it == *it2)
+					throw std::exception();
 	}
 	catch (std::exception &e) { std::cout << "Error: Invalid input" << std::endl; exit(1);}
 }
@@ -47,64 +52,127 @@ PmergeMe::PmergeMe()
 {
 }
 
-void PmergeMe::run()
+void PmergeMe::set_straggler()
+{
+	if(numbers.size() % 2 != 0)
+	{
+		straggler.push_back(numbers.back());
+		numbers.pop_back();
+	}
+}
+void PmergeMe::make_each_pair()
+{
+	std::pair<int, int> pair;
+
+	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it += 2)
+	{
+		if(*it > *(it + 1))
+			pair = std::make_pair(*(it + 1), *it);
+		else
+			pair = std::make_pair(*it, *(it + 1));
+		vecPair.push_back(pair);
+	}
+}
+
+// void insert(std::pair<int, int> element, std::vector<std::pair<int, int> >& pair, int n) {
+// 	if (n < 0)
+// 		pair[0] = element;
+
+// 	else if (element.second >= pair[n].second) {
+// 		if (n == static_cast<int>(pair.size() - 1))
+// 			pair.push_back(element);
+// 		else
+// 			pair[n + 1] = element;
+//   	} 
+// 	else {
+// 		if (n == static_cast<int>(pair.size() - 1))
+// 			pair.push_back(pair[n]);
+// 		else {
+// 			pair[n + 1] = pair[n];
+// 			insert(element, pair, n - 1);
+// 		}
+// 	}
+// }
+
+void insert(std::pair<int, int> element, std::vector<std::pair<int, int> >& pair, int n) {
+	// std::cout << "n: " << n   << "    element: " << element.first << " | " << element.second << std::endl;
+	// for(std::vector<std::pair<int, int> >::iterator it = pair.begin(); it != pair.end(); it++)
+	// 	std::cout << it->first << " | " << it->second << std::endl;
+
+    if (n < 0)
+        pair[0] = element;
+    else if (element.second >= pair[n].second) {
+        pair[n + 1] = element;
+        if (n == static_cast<int>(pair.size() - 1))
+            pair.push_back(pair[n]);
+    } else {
+        pair[n + 1] = pair[n];
+        insert(element, pair, n - 1);
+    }
+}
+
+void PmergeMe::insertion_sort_kinda(std::vector<std::pair<int, int> > &pairs, int len)
+{
+	if(len < 1)
+		return;
+	insertion_sort_kinda(pairs, len - 1);
+	insert(pairs[len], pairs, len -1);
+}
+
+int jacobsthal(int n)
+{
+	if(n == 0)
+		return 0;
+	if(n == 1)
+		return 1;
+	return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
+}
+
+std::vector<int> jacobstall_sequence(std::vector<int> &PendChain)
+{
+	int size = PendChain.size();
+	std::vector<int> jacob_seq;
+	int jacob_index = 3;
+	// std::cout << size << std::endl;
+	// std::cout << "jacobsthal: " << jacobsthal(3) << std::endl;
+	while (jacobsthal(jacob_index) < size -1)
+	{
+        jacob_seq.push_back(jacobsthal(jacob_index));
+        jacob_index++;
+	}
+	return jacob_seq;
+}
+
+void PmergeMe::merge_insertion_sort()
 {
 	std::cout << "numbers: " << std::endl;
 	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl << std::endl;
 
+	set_straggler();
+	make_each_pair();
 
-
-	if(numbers.size() % 2 != 0)
-	{
-		Struggler.push_back(numbers.back());
-		numbers.pop_back();
-	}
-
-	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it += 2)
-	{
-		if(*it > *(it + 1))
-		{
-			std::pair<int, int> pair(*(it + 1), *it);
-			vecPair.push_back(pair);
-		}
-		else
-		{
-			std::pair<int, int> pair(*it, *(it + 1));
-			vecPair.push_back(pair);
-		}
-	}
-
-	std::cout << "Struggler: " << std::endl;
-	for(std::vector<int>::iterator it = Struggler.begin(); it != Struggler.end(); it++)
+	std::cout << "straggler: " << std::endl;
+	for(std::vector<int>::iterator it = straggler.begin(); it != straggler.end(); it++)
 		std::cout << *it << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "Step 2: " << std::endl;
+	std::cout << "pairs: " << std::endl;
 	for(std::vector<std::pair<int, int> >::iterator it = vecPair.begin(); it != vecPair.end(); it++)
 		std::cout << it->first << " " << it->second << std::endl;
 	std::cout << std::endl;
 	
 
+	insertion_sort_kinda(vecPair, vecPair.size() -1);
 
-
-	for(std::vector<std::pair<int, int> >::iterator it = vecPair.begin(); it != vecPair.end(); it++)
-	{
-		for(std::vector<std::pair<int, int> >::iterator it2 = vecPair.begin(); it2 != vecPair.end(); it2++)
-		{
-			if(it->second < it2->second)
-			{
-				std::pair<int, int> tmp = *it;
-				*it = *it2;
-				*it2 = tmp;
-			}
-		}
-	}
-	std::cout << "Step 3: " << std::endl;
+	std::cout << "sorted pairs by their second member:" << std::endl;
 	for(std::vector<std::pair<int, int> >::iterator it = vecPair.begin(); it != vecPair.end(); it++)
 		std::cout << it->first << " " << it->second << std::endl;
 	
+
+
+
 	for(std::vector<std::pair<int, int> >::iterator it = vecPair.begin(); it != vecPair.end(); it++)
 	{
 		mainChain.push_back(it->second);
@@ -113,16 +181,24 @@ void PmergeMe::run()
 
 	// since b1 < a1
 	mainChain.insert(mainChain.begin(), *PendChain.begin());
-	PendChain.erase(PendChain.begin());
+	// PendChain.erase(PendChain.begin());
+
 	
-	std::cout << std::endl << "Step 4: " << std::endl;
-	std::cout << "mainChain: " << std::endl;
-	for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		std::cout << *it << " ";
+	// std::cout << std::endl << "Step 4: " << std::endl;
+	// std::cout << "mainChain: " << std::endl;
+	// for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
+	// 	std::cout << *it << " ";
 
-	std::cout << std::endl << "PendChain: " << std::endl;
-	for(std::vector<int>::iterator it = PendChain.begin(); it != PendChain.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl << std::endl;
+	// std::cout << std::endl << "PendChain: " << std::endl;
+	// for(std::vector<int>::iterator it = PendChain.begin(); it != PendChain.end(); it++)
+	// 	std::cout << *it << " ";
+	// std::cout << std::endl << std::endl;
 
+
+	std::vector<int> jacob_seq = jacobstall_sequence(PendChain);
+	// std::cout << "jacobstall_sequence: " << std::endl;
+	// for(std::vector<int>::iterator it = jacob_seq.begin(); it != jacob_seq.end(); it++)
+	// 	std::cout << *it << " ";
+	// std::cout << std::endl << std::endl;
 }
+// make re &&./PmergeMe 1 2 99 4 22 6 7 33 56 28 45

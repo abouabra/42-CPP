@@ -16,7 +16,7 @@ class PmergeMe
 		std::vector<int> numbers;
 		
 		std::vector<std::pair<int, int> > vecPair;
-		std::vector<int> Struggler;
+		std::vector<int> straggler;
 
 		std::vector<int> mainChain;
 		std::vector<int> PendChain;
@@ -26,7 +26,10 @@ class PmergeMe
 		~PmergeMe();
 		PmergeMe(const PmergeMe &other);
 		PmergeMe &operator=(const PmergeMe &other);
-		void run();
+		void merge_insertion_sort();
+		void set_straggler();
+		void make_each_pair();
+		void insertion_sort_kinda(std::vector<std::pair<int, int> > &pairs, int len);
 };
 
 #endif
