@@ -134,8 +134,13 @@ std::vector<int> jacobstall_sequence(std::vector<int> &PendChain)
 	int size = PendChain.size();
 	std::vector<int> jacob_seq;
 
-	for(int jacob_index = 0; jacob_index <= size; jacob_index++)
+	// jacob_seq.push_back(1);
+	int jacob_index = 3;
+	for(int i = 0; i < size; i++)
+	{
 		jacob_seq.push_back(jacobsthal(jacob_index));
+		jacob_index++;
+	}
 	
 	return jacob_seq;
 }
@@ -158,8 +163,7 @@ void PmergeMe::merge_insertion_sort()
 	std::cout << "pairs: " << std::endl;
 	for(std::vector<std::pair<int, int> >::iterator it = vecPair.begin(); it != vecPair.end(); it++)
 		std::cout << it->first << " " << it->second << std::endl;
-	std::cout << std::endl;
-	
+	std::cout << std::endl;	
 
 	insertion_sort_kinda(vecPair, vecPair.size() -1);
 
@@ -198,20 +202,27 @@ void PmergeMe::merge_insertion_sort()
 		std::cout << *it << " ";
 	std::cout << std::endl;
 
-
-	for(;;)
+	int inc = 0;
+	int max = PendChain.size();
+	for(int i = 0; i < (int)jacob_seq.size();i++)
 	{
-		std::vector<int>::iterator it2 = std::upper_bound(mainChain.begin(), mainChain.end(), *PendChain.begin());
+		int location = jacob_seq[i];
+		if(location > (int)PendChain.size())
+			location = max;
+		// std::cout << "location: " << location << std::endl;
+		std::vector<int>::iterator it2 = std::upper_bound(mainChain.begin(), mainChain.begin() + location + inc, *PendChain.begin());
+		// std::cout << "all: " << location + inc << "   increment: " << inc << "   location: " << location << "   jacob_seq: " << jacob_seq[i] << "   main_Size: " << mainChain.size() << "    num_of_comp li rba7na: " <<  mainChain.size() - (location + inc)<< std::endl;
 		mainChain.insert(it2, *PendChain.begin());
 		PendChain.erase(PendChain.begin());
 		if(PendChain.empty())
 			break;
+		inc++;
 	}
 
 	std::cout << std::endl << "merge: " << std::endl;
 	for(std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
 		std::cout << *it << " ";
-	std::cout << std::endl << std::endl;
+	std::cout << std::endl;
 
 	if(!straggler.empty())
 	{
