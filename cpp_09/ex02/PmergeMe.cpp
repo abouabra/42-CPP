@@ -53,13 +53,15 @@ PmergeMe::PmergeMe()
 }
 
 
-void PmergeMe::merge_part(std::vector<int> v, int vec_size, std::vector<std::vector<int> > &big_v)
+void PmergeMe::merge_part(std::vector<int> &v, int vec_size, std::vector<std::vector<int> > &big_v)
 {
 	std::vector<std::vector<int> > new_big_v;
+	// std::vector<int> new_v;
 	new_big_v = big_v;
+	// new_v = v;
 	// big_v.clear();
 	rest.clear();
-	new_v.clear();
+	// new_v.clear();
 
 	int size_of_v = 2 * vec_size;
 	if (size_of_v == 0)
@@ -68,12 +70,13 @@ void PmergeMe::merge_part(std::vector<int> v, int vec_size, std::vector<std::vec
 	make_pairs(v, size_of_v, big_v);
 	print_vec(big_v, rest, vec_size);
 	reorder_v(vec_size, big_v);
-	make_new_v(big_v);
+	make_new_v(big_v, v);
 
 	if(big_v.size() > 3)
-		merge_part(new_v, size_of_v, new_big_v);
-	insertion_part(big_v, rest, vec_size);
+		merge_part(v, size_of_v, new_big_v);
+	insertion_part(big_v, rest, vec_size, v);
 	big_v = new_big_v;
+	// v = new_v;
 }
 
 void PmergeMe::make_pairs(std::vector<int> v, int size_of_v, std::vector<std::vector<int> > &big_v)
@@ -94,8 +97,9 @@ void PmergeMe::make_pairs(std::vector<int> v, int size_of_v, std::vector<std::ve
 	}
 }
 
-void PmergeMe::make_new_v(std::vector<std::vector<int> > &big_v)
+void PmergeMe::make_new_v(std::vector<std::vector<int> > &big_v, std::vector<int> &new_v)
 {
+	new_v.clear();
 	for(size_t i = 0; i < big_v.size(); i++)
 		for (size_t j = 0; j < big_v[i].size(); j++)
 			new_v.push_back(big_v[i][j]);
@@ -224,7 +228,7 @@ void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_cha
 	}
 	std::cout << std::endl;
 }
-void PmergeMe::insertion_part(std::vector<std::vector<int> > big_v, std::vector<int> rest, int vec_size)
+void PmergeMe::insertion_part(std::vector<std::vector<int> > big_v, std::vector<int> rest, int vec_size, std::vector<int> &new_v)
 {
 	(void)vec_size;
 	(void)rest;
@@ -247,4 +251,18 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > big_v, std::vector<
 	}
 
 	print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
+
+	new_v.clear();
+	for (size_t i = 0; i < main_chain.size(); i++)
+	{
+		for (size_t j = 0; j < main_chain[i].size(); j++)
+			new_v.push_back(main_chain[i][j]);
+	}
+	for (size_t i = 0; i < pend_chain.size(); i++)
+	{
+		for (size_t j = 0; j < pend_chain[i].size(); j++)
+			new_v.push_back(pend_chain[i][j]);
+	}
+	for (size_t i = 0; i < rest.size(); i++)
+		new_v.push_back(rest[i]);
 }
