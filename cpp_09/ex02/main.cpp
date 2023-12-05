@@ -8,9 +8,9 @@ int main(int ac, char **av)
         return 1;
     }
     av++;
-    
+
     PmergeMe pm(av);
     pm.merge_insertion_sort();
-    
+
     return 0;
 }
