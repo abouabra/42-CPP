@@ -11,6 +11,5 @@ int main(int ac, char **av)
 
     PmergeMe pm(av);
     pm.merge_insertion_sort();
-
     return 0;
 }
