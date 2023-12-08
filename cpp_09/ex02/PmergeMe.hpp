@@ -18,7 +18,6 @@ class PmergeMe
 		// std::vector<std::vector<int> > big_v;
 		std::vector<int> rest;
 		// std::vector<int> new_v;
-		int n_compares;
 		PmergeMe();
 	public:
 		PmergeMe(char **av);
@@ -36,5 +35,6 @@ class PmergeMe
 		void split_big_v(std::vector<std::vector<int> > &big_v, std::vector<int> v, int vec_size);
 		void make_v_from_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<int> rest, std::vector<int> &v);
 };		
+		bool comp_func(std::vector<int> v1, std::vector<int> v2);
 
 #endif

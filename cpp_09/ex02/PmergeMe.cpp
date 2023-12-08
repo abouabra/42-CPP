@@ -3,9 +3,10 @@
 #include <cstdlib>
 #include <exception>
 #include <iostream>
-#include <sys/_types/_size_t.h>
 #include <utility>
 #include <vector>
+
+int n_compares;
 
 PmergeMe::PmergeMe(char **av)
 {
@@ -244,11 +245,17 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 	{
 		if(i % 2 == 0)
 		{
+			// if(i + 1 < big_v.size())
+			// 	pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
+			// else
+			// 	pend_chain.push_back(std::make_pair(big_v[i], big_v.end()));
+			// pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
+
+			//store the pair of vector and iterator to the next vector
 			if(i + 1 < big_v.size())
 				pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
 			else
 				pend_chain.push_back(std::make_pair(big_v[i], big_v.end()));
-			// pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
 		}
 		else
 			main_chain.push_back(big_v[i]);
@@ -256,18 +263,22 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 
 	print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
 
+	int count = 0;
 	for(size_t i = 0; i < pend_chain.size(); i++)
 	{
-		std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), pend_chain[i].second, pend_chain[i].first);
-		if(it == pend_chain[i].second)
-			main_chain.push_back(pend_chain[i].first);
-		else
+		if(!count)
+		{
+			count++;
+			std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), pend_chain[i].second, pend_chain[i].first, comp_func);
 			main_chain.insert(it, pend_chain[i].first);
+		}
+		else
+		{
+			std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), main_chain.end(), pend_chain[i].first, comp_func);
+			main_chain.insert(it, pend_chain[i].first);
+		}
 	}
-	pend_chain.clear();
-	std::cout << "exit" << std::endl;
-
-
+	// pend_chain.clear();
 
 
 	make_v_from_main_and_pend_chain(main_chain, rest, v);
@@ -275,6 +286,12 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 	make_pairs(v, vec_size, big_v);
 }
 
+
+bool comp_func(std::vector<int> v1, std::vector<int> v2)
+{
+	n_compares++;
+	return v1.back() < v2.back();
+}
 void PmergeMe::split_big_v(std::vector<std::vector<int> > &big_v, std::vector<int> v, int vec_size)
 {
 	(void)vec_size;
