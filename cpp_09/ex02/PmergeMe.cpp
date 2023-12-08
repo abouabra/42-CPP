@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <sys/_types/_size_t.h>
 #include <utility>
 #include <vector>
 
@@ -241,34 +242,49 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 	for(size_t i = 0; i < 2; i++)
 		main_chain.push_back(big_v[i]);
 
-	for(size_t i = 2; i < big_v.size(); i++)
+	std::pair<std::vector<int>, std::vector<std::vector<int> >::iterator > pair_temp;
+	for(size_t i = 2; i < big_v.size();)
 	{
-		if(i % 2 == 0)
+		pair_temp.first = big_v[i];
+		pair_temp.second = main_chain.end();
+		++i;
+		if (i < big_v.size())
 		{
-			// if(i + 1 < big_v.size())
-			// 	pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
-			// else
-			// 	pend_chain.push_back(std::make_pair(big_v[i], big_v.end()));
-			// pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
-
-			//store the pair of vector and iterator to the next vector
-			if(i + 1 < big_v.size())
-				pend_chain.push_back(std::make_pair(big_v[i], big_v.begin() + i + 1));
-			else
-				pend_chain.push_back(std::make_pair(big_v[i], big_v.end()));
+			pair_temp.second = main_chain.insert(main_chain.end(), big_v[i]);
+			// pair_temp.second = mani.insert(big_v[i]);
 		}
-		else
-			main_chain.push_back(big_v[i]);
+		++i;
+		pend_chain.push_back(pair_temp);
 	}
-
 	print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
 
+	for(size_t i = 0; i < pend_chain.size(); i++)
+	{
+		for(std::vector<int>::iterator it = pend_chain[i].second->begin(); it != pend_chain[i].second->end(); it++)
+		{
+
+			std::cout << *it << " ";
+		}
+
+		std::cout << std::endl;
+	}
 	int count = 0;
 	for(size_t i = 0; i < pend_chain.size(); i++)
 	{
 		if(!count)
 		{
 			count++;
+			// std::cout << "hello" << std::endl;
+			//print vector on pend_chain[i].second
+			// for(std::vector<std::vector<int> >::iterator it = pend_chain[i].second; it != big_v.end(); it++)
+			// {
+				// std::cout << "hello" << std::endl;
+				// for(std::vector<int>::iterator it2 =  pend_chain[i].second->begin(); it2 !=  pend_chain[i].second->end(); it2++)
+				// 	std::cout << *it2 << " ";
+				// std::cout << std::endl;
+			// }
+
+			// std::cout << "hello" << std::endl;
 			std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), pend_chain[i].second, pend_chain[i].first, comp_func);
 			main_chain.insert(it, pend_chain[i].first);
 		}
@@ -279,7 +295,6 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 		}
 	}
 	// pend_chain.clear();
-
 
 	make_v_from_main_and_pend_chain(main_chain, rest, v);
 	
@@ -323,3 +338,5 @@ void PmergeMe::make_v_from_main_and_pend_chain(std::vector<std::vector<int> > ma
 	for (size_t i = 0; i < rest.size(); i++)
 		v.push_back(rest[i]);
 }
+
+
