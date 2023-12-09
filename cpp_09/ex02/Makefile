@@ -1,7 +1,7 @@
 SRC = main.cpp PmergeMe.cpp
 
 OSRC=$(SRC:.cpp=.o)
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -std=c++98# -fsanitize=address -g3
 
 NAME = PmergeMe
 

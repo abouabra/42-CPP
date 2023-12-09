@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <ostream>
 #include <sys/_types/_size_t.h>
 #include <utility>
 #include <vector>
@@ -167,6 +168,7 @@ void PmergeMe::print_vec(std::vector<std::vector<int> > big_v, std::vector<int> 
 void PmergeMe::merge_insertion_sort()
 {
 	std::cout << "numbers: " << std::endl;
+	size_t size = numbers.size();
 	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl << std::endl;
@@ -178,6 +180,16 @@ void PmergeMe::merge_insertion_sort()
 	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl << std::endl;
+	
+	
+	
+	
+	
+	std::is_sorted(numbers.begin(), numbers.end()) ? std::cout << "sorted" << std::endl : std::cout << "not sorted" << std::endl;
+	if(size != numbers.size())
+		std::cout << "size is wrong" << std::endl;
+	else
+		std::cout << "size is correct" << std::endl;
 }
 
 void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain, std::vector<int> rest, int vec_size)
@@ -236,65 +248,159 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 	(void)big_v;
 
 	print_vec(big_v, rest, vec_size);
-
 	std::vector<std::vector<int> > main_chain;
 	std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain;
-	for(size_t i = 0; i < 2; i++)
-		main_chain.push_back(big_v[i]);
+	size_t i = 0;
 
-	std::pair<std::vector<int>, std::vector<std::vector<int> >::iterator > pair_temp;
-	for(size_t i = 2; i < big_v.size();)
+	for(; i < 2 && i < big_v.size(); i++)
 	{
-		pair_temp.first = big_v[i];
-		pair_temp.second = main_chain.end();
-		++i;
-		if (i < big_v.size())
-		{
-			pair_temp.second = main_chain.insert(main_chain.end(), big_v[i]);
-			// pair_temp.second = mani.insert(big_v[i]);
-		}
-		++i;
-		pend_chain.push_back(pair_temp);
+		main_chain.push_back(big_v[i]);
 	}
+	std::pair<std::vector<int>, std::vector<std::vector<int> >::iterator > pair_temp;
+	// for(size_t i = 2; i < big_v.size();)
+	// {
+	// 	pair_temp.first = big_v[i];
+	// 	pair_temp.second = main_chain.end();
+	// 	++i;
+	// 	if (i < big_v.size())
+	// 	{
+	// 		// pair_temp.second = main_chain.insert(main_chain.end(), big_v[i]);
+	// 		// pair_temp.second = main_chain.insert(big_v[i], main_chain.end());
+	// 		pair_temp.second = main_chain.insert()
+	// 		std::cout << "value : " << pair_temp.second->back() << std::endl;
+	// 		pend_chain.push_back(pair_temp);
+	// 	}
+	// 	// if (pair_temp.second != main_chain.end())
+	// 	// 	std::cout << "second element : " << pair_temp.second->back() << std::endl;
+	// 	std::cout << "here" << std::endl;
+	// 	// pend_chain.push_back(pair_temp);
+	// 	++i;
+	// 	// std::cout << "creation loop:" << std::endl;
+	// 	// for(std::vector<int>::iterator it = pend_chain.back().second->begin(); it != pend_chain.back().second->end(); it++)
+	// 	// 	std::cout << *it << " ";
+	// 	// std::cout << std::endl;
+	// }
+	std::vector<std::vector<int> >::iterator tmp;
+	
+	for(std::vector<std::vector<int> >::iterator it = big_v.begin() + 2; it != big_v.end(); )
+	{
+		if (it + 1 == big_v.end())
+		{
+			pend_chain.push_back(std::make_pair(*it,main_chain.end()));
+			break ;
+		}
+		tmp = main_chain.insert(main_chain.end(), *(it + 1));
+		std::cout << "9bel mn : " << tmp->back() << std::endl;
+		std::cout << "hna f pend : " << (*it).back() << std::endl;
+		pend_chain.push_back(std::make_pair(*it,tmp));
+		it += 2;
+	}
+
+	std::cout << "pend size :" << pend_chain.size() << std::endl;
+	std::cout << "****************" << std::endl;
+	// if (pend_chain.size())
+	// 	std::cout << "had lvector : " << pend_chain.begin()->first.front() << " value : " << pend_chain.begin()->second->front() << std::endl; 
+	
 	print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
 
-	for(size_t i = 0; i < pend_chain.size(); i++)
+
+
+
+
+
+
+
+	// for(size_t i = 0; i < pend_chain.size(); i++)
+	// {
+	// 	if(pend_chain[i].second == main_chain.end())
+	// 	{
+	// 		std::cout<<"here 3"<<std::endl;
+	// 		break;
+	// 	}
+	// 	for(std::vector<int>::iterator it = pend_chain[i].second->begin() ; it != pend_chain[i].second->end(); it++)
+	// 	{
+			
+	// 			std::cout << *it << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
+
+
+
+	
+	// int count = 0;
+	// for(size_t i = 0; i < pend_chain.size(); i++)
+	// {
+	// 	if(!count)
+	// 	{
+	// 		count++;
+	// 		// std::cout << "hello" << std::endl;
+	// 		//print vector on pend_chain[i].second
+	// 		// for(std::vector<std::vector<int> >::iterator it = pend_chain[i].second; it != big_v.end(); it++)
+	// 		// {
+	// 			// std::cout << "hello" << std::endl;
+	// 			// for(std::vector<int>::iterator it2 =  pend_chain[i].second->begin(); it2 !=  pend_chain[i].second->end(); it2++)
+	// 			// 	std::cout << *it2 << " ";
+	// 			// std::cout << std::endl;
+	// 		// }
+
+	// 		// std::cout << "hello" << std::endl;
+	// 		// std::cout<<"here 1"<<std::endl;
+	// 		// std::cout<<"index: " << i << "| first element: " << *pend_chain[i].second->begin() << std::endl;
+	// 		std::cout<<"here 1"<<std::endl;
+	// 		for(std::vector<int>::iterator it = pend_chain[i].second->begin(); it != pend_chain[i].second->end(); it++)
+	// 		{
+	// 			std::cout << *it << " ";
+	// 		}
+	// 		std::cout << std::endl;
+	// 		std::cout<<"here 2"<<std::endl;
+			// std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), pend_chain[i].second, pend_chain[i].first, comp_func);
+			// main_chain.insert(it, pend_chain[i].first);
+	// 	}
+	// 	else
+	// 	{
+			// std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), main_chain.end(), pend_chain[i].first, comp_func);
+			// main_chain.insert(it, pend_chain[i].first);
+	// 	}
+	// }
+	
+	for(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> >::iterator it = pend_chain.begin(); it != pend_chain.end(); it++)
 	{
-		for(std::vector<int>::iterator it = pend_chain[i].second->begin(); it != pend_chain[i].second->end(); it++)
-		{
+	// 	// if (it->second == main_chain.end())
+	// 	// 	break;
+	// 	// if (it->second < main_chain.end())
+	// 	// 	std::cout << "second  " << it->second->back() << std::endl;
 
-			std::cout << *it << " ";
-		}
-
-		std::cout << std::endl;
+	// 	// for(std::vector<int>::iterator it2 = it->second->begin(); it2 != it->second->end(); it2++)
+	// 	// {
+	// 	// 	std::cout << *it2 << " ";
+	// 	// }
+	// 	// std::cout << std::endl;
+		// if(it == pend_chain.begin())
+		// {
+	// 		// std::cout << "here 0" << std::endl;
+	// 		//print vector on it->second
+	// 		// std::cout << "print first" << *it->second->begin() << std::endl;
+	// 		// for(std::vector<int>::iterator it2 = it->second->begin(); it2 != it->second->end(); it2++)
+	// 		// {
+	// 		// 	std::cout << *it2 << " ";
+	// 		// }
+	// 		// std::cout << std::endl;
+	// 		std::cout << "here 1" << std::endl;
+			if (pend_chain.size() && it->second != main_chain.end())
+				std::cout << "second  " << it->second->back() << std::endl;
+			// std::vector<std::vector<int> >::iterator it2 = std::lower_bound(main_chain.begin(), it->second, it->first, comp_func);
+	// 		std::cout << "here 2" << std::endl;
+			// main_chain.insert(it2, it->first);
+		// }
+		// else
+		// {
+			std::vector<std::vector<int> >::iterator it2 = std::lower_bound(main_chain.begin(), main_chain.end(), it->first, comp_func);
+			main_chain.insert(it2, it->first);
+		// }
+	// // 	// std::cout << std::endl;
 	}
-	int count = 0;
-	for(size_t i = 0; i < pend_chain.size(); i++)
-	{
-		if(!count)
-		{
-			count++;
-			// std::cout << "hello" << std::endl;
-			//print vector on pend_chain[i].second
-			// for(std::vector<std::vector<int> >::iterator it = pend_chain[i].second; it != big_v.end(); it++)
-			// {
-				// std::cout << "hello" << std::endl;
-				// for(std::vector<int>::iterator it2 =  pend_chain[i].second->begin(); it2 !=  pend_chain[i].second->end(); it2++)
-				// 	std::cout << *it2 << " ";
-				// std::cout << std::endl;
-			// }
-
-			// std::cout << "hello" << std::endl;
-			std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), pend_chain[i].second, pend_chain[i].first, comp_func);
-			main_chain.insert(it, pend_chain[i].first);
-		}
-		else
-		{
-			std::vector<std::vector<int> >::iterator it = std::lower_bound(main_chain.begin(), main_chain.end(), pend_chain[i].first, comp_func);
-			main_chain.insert(it, pend_chain[i].first);
-		}
-	}
-	// pend_chain.clear();
+	pend_chain.clear();
 
 	make_v_from_main_and_pend_chain(main_chain, rest, v);
 	
