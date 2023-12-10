@@ -10,6 +10,7 @@ int main(int ac, char **av)
     av++;
 
     PmergeMe pm(av);
+    pm.set_debug_mode(true);
     pm.merge_insertion_sort();
     return 0;
 }

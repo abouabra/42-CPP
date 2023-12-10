@@ -10,14 +10,21 @@
 #include <utility>
 #include <vector>
 
+typedef std::vector<int> vec_int;
+typedef vec_int::iterator vec_iter;
+
+typedef std::vector<std::vector<int> > vec_vec_int;
+typedef vec_vec_int::iterator vec_vec_iter;
+
+
+typedef std::vector<std::pair<vec_int, vec_vec_iter> > vec_pair;
+typedef vec_pair::iterator vec_pair_iter;
 class PmergeMe
 {
 	private:
-		std::vector<int> numbers;
-		
-		// std::vector<std::vector<int> > big_v;
-		std::vector<int> rest;
-		// std::vector<int> new_v;
+		vec_int numbers;
+		vec_int rest;
+		bool debug_mode;
 		PmergeMe();
 	public:
 		PmergeMe(char **av);
@@ -25,20 +32,20 @@ class PmergeMe
 		PmergeMe(const PmergeMe &other);
 		PmergeMe &operator=(const PmergeMe &other);
 		void merge_insertion_sort();
-		void merge_part(std::vector<int> &v, int vec_size, std::vector<std::vector<int> > &big_v);
-		void print_vec(std::vector<std::vector<int> > big_v, std::vector<int> rest, int vec_size);
-		void reorder_v(int vec_size, std::vector<std::vector<int> > &big_v, std::vector<int> &v);
-		void make_new_v(std::vector<std::vector<int> > &big_v, std::vector<int> &new_v);
-		void make_pairs(std::vector<int> v, int size_of_v, std::vector<std::vector<int> > &big_v);
-		void insertion_part(std::vector<std::vector<int> > &big_v, std::vector<int> rest, int vec_size, std::vector<int> &new_v);
-		void print_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain, std::vector<int> rest, int vec_size);
-		void split_big_v(std::vector<std::vector<int> > &big_v, std::vector<int> v, int vec_size);
-		void make_v_from_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<int> rest, std::vector<int> &v);
-		void update_pend_chain(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> >::iterator it);
-		void make_main_chain_and_pend_chain(std::vector<std::vector<int> > &main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> > big_v);
-
+		void merge_part(vec_int &v, int vec_size, vec_vec_int &big_v);
+		void print_vec(vec_vec_int big_v,vec_int rest, int vec_size);
+		void reorder_v(int vec_size, vec_vec_int &big_v,vec_int &v);
+		void make_new_v(vec_vec_int &big_v,vec_int &new_v);
+		void make_pairs(vec_int v, int size_of_v, vec_vec_int &big_v);
+		void insertion_part(vec_vec_int &big_v,vec_int rest, int vec_size,vec_int &new_v);
+		void print_main_and_pend_chain(vec_vec_int main_chain, vec_pair pend_chain,vec_int rest, int vec_size);
+		void split_big_v(vec_vec_int &big_v,vec_int v, int vec_size);
+		void make_v_from_main_and_pend_chain(vec_vec_int main_chain,vec_int rest,vec_int &v);
+		void update_pend_chain(vec_pair &pend_chain, vec_vec_iter it);
+		void make_main_chain_and_pend_chain(vec_vec_int &main_chain, vec_pair &pend_chain, vec_vec_int big_v);
+		void set_debug_mode(bool debug_mode);
 };		
 
-bool comp_func(std::vector<int> v1, std::vector<int> v2);
+bool comp_func(vec_int v1, vec_int v2);
 
 #endif

@@ -1,17 +1,10 @@
 #include "PmergeMe.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <exception>
-#include <iostream>
-#include <ostream>
-#include <sys/_types/_size_t.h>
-#include <utility>
-#include <vector>
 
 int n_compares;
 
 PmergeMe::PmergeMe(char **av)
 {
+	debug_mode = false;
 	int tmp;
 	try {
 		for (int i = 0; av[i]; i++)
@@ -27,8 +20,8 @@ PmergeMe::PmergeMe(char **av)
 			numbers.push_back(tmp);
 		}
 
-		// for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
-		// 	for(std::vector<int>::iterator it2 = it + 1; it2 != numbers.end(); it2++)
+		// for(vec_iteriterator it = numbers.begin(); it != numbers.end(); it++)
+		// 	for(vec_iter it2 = it + 1; it2 != numbers.end(); it2++)
 		// 		if(*it == *it2)
 		// 			throw std::exception();
 	}
@@ -55,15 +48,20 @@ PmergeMe::PmergeMe()
 {
 }
 
+void PmergeMe::set_debug_mode(bool debug_mode)
+{
+	this->debug_mode = debug_mode;
+}
 
-void PmergeMe::merge_part(std::vector<int> &v, int vec_size, std::vector<std::vector<int> > &big_v)
+void PmergeMe::merge_part(vec_int &v, int vec_size, vec_vec_int &big_v)
 {
 	int size_of_v = 2 * vec_size;
 	if (size_of_v == 0)
 		size_of_v = 1;
-	
+
 	make_pairs(v, size_of_v, big_v);
-	print_vec(big_v, rest, vec_size);
+	if(debug_mode)
+		print_vec(big_v, rest, vec_size);
 	reorder_v(vec_size, big_v, v);
 
 	if(big_v.size() > 3)
@@ -71,13 +69,13 @@ void PmergeMe::merge_part(std::vector<int> &v, int vec_size, std::vector<std::ve
 	insertion_part(big_v, rest, vec_size, v);
 }
 
-void PmergeMe::make_pairs(std::vector<int> v, int size_of_v, std::vector<std::vector<int> > &big_v)
+void PmergeMe::make_pairs(vec_int v, int size_of_v, vec_vec_int &big_v)
 {
 	if (size_of_v == 0)
 		size_of_v = 1;
 	big_v.clear();
 	rest.clear();
-	std::vector<int> small_v;
+	vec_int small_v;
 	for(size_t i = 0; i < v.size(); i += size_of_v)
 	{
 		if(i + size_of_v > v.size())
@@ -93,7 +91,7 @@ void PmergeMe::make_pairs(std::vector<int> v, int size_of_v, std::vector<std::ve
 	}
 }
 
-void PmergeMe::make_new_v(std::vector<std::vector<int> > &big_v, std::vector<int> &v)
+void PmergeMe::make_new_v(vec_vec_int &big_v, vec_int &v)
 {
 	v.clear();
 	for(size_t i = 0; i < big_v.size(); i++)
@@ -103,7 +101,7 @@ void PmergeMe::make_new_v(std::vector<std::vector<int> > &big_v, std::vector<int
 		v.push_back(rest[i]);
 }
 
-void PmergeMe::reorder_v(int vec_size, std::vector<std::vector<int> > &big_v, std::vector<int> &v)
+void PmergeMe::reorder_v(int vec_size, vec_vec_int &big_v, vec_int &v)
 {
 	if(vec_size == 0)
 		vec_size = 1;
@@ -116,7 +114,7 @@ void PmergeMe::reorder_v(int vec_size, std::vector<std::vector<int> > &big_v, st
 	make_new_v(big_v, v);
 }
 
-void PmergeMe::print_vec(std::vector<std::vector<int> > big_v, std::vector<int> rest, int vec_size)
+void PmergeMe::print_vec(vec_vec_int big_v, vec_int rest, int vec_size)
 {
 	vec_size *= 2;
 	if(vec_size == 0)
@@ -137,10 +135,10 @@ void PmergeMe::print_vec(std::vector<std::vector<int> > big_v, std::vector<int> 
 	for (int i = 0; i < vec_size; i++)
 		std::cout << "\t";
 	std::cout << "big_v: ";
-	for(std::vector<std::vector<int> >::iterator it = big_v.begin(); it != big_v.end(); it++)
+	for(vec_vec_iter it = big_v.begin(); it != big_v.end(); it++)
 	{
 		std::cout << "[";
-		for(std::vector<int>::iterator it2 = it->begin(); it2 != it->end(); it2++)
+		for(vec_iter it2 = it->begin(); it2 != it->end(); it2++)
 		{
 			std::cout << *it2;
 			if(it2 + 1 != it->end())
@@ -154,7 +152,7 @@ void PmergeMe::print_vec(std::vector<std::vector<int> > big_v, std::vector<int> 
 	if(!rest.empty())
 	{
 		std::cout << " + [";
-		for(std::vector<int>::iterator it = rest.begin(); it != rest.end(); it++)
+		for(vec_iter it = rest.begin(); it != rest.end(); it++)
 		{
 			std::cout << *it;
 			if(it + 1 != rest.end())
@@ -169,15 +167,15 @@ void PmergeMe::merge_insertion_sort()
 {
 	std::cout << "numbers: " << std::endl;
 	size_t size = numbers.size();
-	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
+	for(vec_iter it = numbers.begin(); it != numbers.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl << std::endl;
 
-	std::vector<std::vector<int> > big_v;
+	vec_vec_int big_v;
 	merge_part(numbers, 0, big_v);
 	std::cout << std::endl << "n_compares: " << n_compares << std::endl;
 	std::cout << "numbers: " << std::endl;
-	for(std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); it++)
+	for(vec_iter it = numbers.begin(); it != numbers.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl << std::endl;
 	
@@ -186,21 +184,18 @@ void PmergeMe::merge_insertion_sort()
 	
 	
 	std::is_sorted(numbers.begin(), numbers.end()) ? std::cout << "sorted" << std::endl : std::cout << "not sorted" << std::endl;
-	if(size != numbers.size())
-		std::cout << "size is wrong" << std::endl;
-	else
-		std::cout << "size is correct" << std::endl;
+	size != numbers.size() ? std::cout << "size is wrong: " << size << std::endl : std::cout << "size is correct: " << size << std::endl;
 }
 
-void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain, std::vector<int> rest, int vec_size)
+void PmergeMe::print_main_and_pend_chain(vec_vec_int main_chain, vec_pair pend_chain, vec_int rest, int vec_size)
 {
 	for (int i = 0; i < vec_size; i++)
 		std::cout << "\t";
 	std::cout << "main_chain: ";
-	for(std::vector<std::vector<int> >::iterator it = main_chain.begin(); it != main_chain.end(); it++)
+	for(vec_vec_iter it = main_chain.begin(); it != main_chain.end(); it++)
 	{
 		std::cout << "[";
-		for(std::vector<int>::iterator it2 = it->begin(); it2 != it->end(); it2++)
+		for(vec_iter it2 = it->begin(); it2 != it->end(); it2++)
 		{
 			std::cout << *it2;
 			if(it2 + 1 != it->end())
@@ -215,10 +210,10 @@ void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_cha
 	for (int i = 0; i < vec_size; i++)
 		std::cout << "\t";
 	std::cout << "pend_chain: ";
-	for(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> >::iterator it = pend_chain.begin(); it != pend_chain.end(); it++)
+	for(vec_pair_iter it = pend_chain.begin(); it != pend_chain.end(); it++)
 	{
 		std::cout << "[";
-		for(std::vector<int>::iterator it2 = it->first.begin(); it2 != it->first.end(); it2++)
+		for(vec_iter it2 = it->first.begin(); it2 != it->first.end(); it2++)
 		{
 			std::cout << *it2;
 			if(it2 + 1 != it->first.end())
@@ -232,7 +227,7 @@ void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_cha
 	for (int i = 0; i < vec_size; i++)
 		std::cout << "\t";
 	std::cout << "rest: ";
-	for(std::vector<int>::iterator it = rest.begin(); it != rest.end(); it++)
+	for(vec_iter it = rest.begin(); it != rest.end(); it++)
 	{
 		std::cout << *it;
 		if(it + 1 != rest.end())
@@ -241,22 +236,25 @@ void PmergeMe::print_main_and_pend_chain(std::vector<std::vector<int> > main_cha
 	std::cout << std::endl;
 }
 
-void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector<int> rest, int vec_size, std::vector<int> &v)
+void PmergeMe::insertion_part(vec_vec_int &big_v, vec_int rest, int vec_size, vec_int &v)
 {
-	print_vec(big_v, rest, vec_size);
-	std::vector<std::vector<int> > main_chain;
-	std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain;
+	if(debug_mode)
+		print_vec(big_v, rest, vec_size);
+	vec_vec_int main_chain;
+	vec_pair pend_chain;
+
 	pend_chain.reserve(big_v.size());
 	main_chain.reserve(big_v.size());
 
 
 	make_main_chain_and_pend_chain(main_chain, pend_chain, big_v);
 
-	print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
+	if(debug_mode)
+		print_main_and_pend_chain(main_chain, pend_chain, rest, vec_size);
 
-	for(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> >::iterator it = pend_chain.begin(); it != pend_chain.end(); it++)
+	for(vec_pair_iter it = pend_chain.begin(); it != pend_chain.end(); it++)
 	{
-		std::vector<std::vector<int> >::iterator it2 = std::lower_bound(main_chain.begin(), it->second, it->first, comp_func);
+		vec_vec_iter it2 = std::lower_bound(main_chain.begin(), it->second, it->first, comp_func);
 		main_chain.insert(it2, it->first);
 		update_pend_chain(pend_chain, it->second);
 	}
@@ -266,7 +264,7 @@ void PmergeMe::insertion_part(std::vector<std::vector<int> > &big_v, std::vector
 	make_pairs(v, vec_size, big_v);
 }
 
-void PmergeMe::make_main_chain_and_pend_chain(std::vector<std::vector<int> > &main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> > big_v)
+void PmergeMe::make_main_chain_and_pend_chain(vec_vec_int &main_chain, vec_pair &pend_chain, vec_vec_int big_v)
 {
 	size_t i = 0;
 
@@ -275,8 +273,8 @@ void PmergeMe::make_main_chain_and_pend_chain(std::vector<std::vector<int> > &ma
 		main_chain.push_back(big_v[i]);
 	}
 
-	std::pair<std::vector<int>, std::vector<std::vector<int> >::iterator > pair_temp;
-	for(std::vector<std::vector<int> >::iterator it = big_v.begin() + 2; i == 2 && it != big_v.end(); )
+	std::pair<vec_int, vec_vec_iter > pair_temp;
+	for(vec_vec_iter it = big_v.begin() + 2; i == 2 && it != big_v.end(); )
 	{
 		pair_temp.first = *it;
 		pair_temp.second = main_chain.end();
@@ -290,26 +288,26 @@ void PmergeMe::make_main_chain_and_pend_chain(std::vector<std::vector<int> > &ma
 	}
 }
 
-void PmergeMe::update_pend_chain(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> >::iterator it)
+void PmergeMe::update_pend_chain(vec_pair &pend_chain, vec_vec_iter it)
 {
-	for(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> >::iterator it2 = pend_chain.begin(); it2 != pend_chain.end(); it2++)
+	for(vec_pair_iter it2 = pend_chain.begin(); it2 != pend_chain.end(); it2++)
 	{
 		if(it2->second != it)
 			it2->second++;
 	}
 }
 
-bool comp_func(std::vector<int> v1, std::vector<int> v2)
+bool comp_func(vec_int v1, vec_int v2)
 {
 	n_compares++;
 	return v1.back() < v2.back();
 }
-void PmergeMe::split_big_v(std::vector<std::vector<int> > &big_v, std::vector<int> v, int vec_size)
+void PmergeMe::split_big_v(vec_vec_int &big_v, vec_int v, int vec_size)
 {
 	if(vec_size == 0)
 		vec_size = 1;
 	big_v.clear();
-	std::vector<int> small_v;
+	vec_int small_v;
 	for(size_t i = 0; i < v.size(); i += vec_size)
 	{
 		small_v.clear();
@@ -321,7 +319,7 @@ void PmergeMe::split_big_v(std::vector<std::vector<int> > &big_v, std::vector<in
 }
 
 
-void PmergeMe::make_v_from_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<int> rest, std::vector<int> &v)
+void PmergeMe::make_v_from_main_and_pend_chain(vec_vec_int main_chain, vec_int rest, vec_int &v)
 {
 	v.clear();
 	for (size_t i = 0; i < main_chain.size(); i++)
@@ -332,5 +330,3 @@ void PmergeMe::make_v_from_main_and_pend_chain(std::vector<std::vector<int> > ma
 	for (size_t i = 0; i < rest.size(); i++)
 		v.push_back(rest[i]);
 }
-
-
