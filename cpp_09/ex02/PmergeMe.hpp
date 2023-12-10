@@ -34,7 +34,11 @@ class PmergeMe
 		void print_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > pend_chain, std::vector<int> rest, int vec_size);
 		void split_big_v(std::vector<std::vector<int> > &big_v, std::vector<int> v, int vec_size);
 		void make_v_from_main_and_pend_chain(std::vector<std::vector<int> > main_chain, std::vector<int> rest, std::vector<int> &v);
+		void update_pend_chain(std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> >::iterator it);
+		void make_main_chain_and_pend_chain(std::vector<std::vector<int> > &main_chain, std::vector<std::pair<std::vector<int> , std::vector<std::vector<int> >::iterator> > &pend_chain, std::vector<std::vector<int> > big_v);
+
 };		
-		bool comp_func(std::vector<int> v1, std::vector<int> v2);
+
+bool comp_func(std::vector<int> v1, std::vector<int> v2);
 
 #endif
