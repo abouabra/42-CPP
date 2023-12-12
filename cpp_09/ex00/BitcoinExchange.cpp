@@ -1,5 +1,6 @@
 #include "BitcoinExchange.hpp"
 #include <cstdlib>
+#include <stdexcept>
 
 
 BitcoinExchange::BitcoinExchange(std::string input_filename)
@@ -232,11 +233,24 @@ void parse_input_file(std::string filename, std::map<int, float> data_map)
 		file.open(filename.c_str(), std::ios::in);
 		if (!file.is_open())
 			throw std::exception();
-
+		if(file.peek() == std::ifstream::traits_type::eof())
+			throw std::exception();
 		while (std::getline(file, line)) {
+			if(line.empty())
+			{
+				std::cout << "Error: bad input => " << line << std::endl;
+				i++;
+				continue;
+			}
 			int seperator = line.find('|');
 			int count = std::count(line.begin(), line.end(), '|');
 			if(count != 1 || seperator == -1)
+			{
+				std::cout << "Error: bad input => " << line << std::endl;
+				i++;
+				continue;
+			}
+			if(std::count(line.begin(), line.end(), ' ') != 2)
 			{
 				std::cout << "Error: bad input => " << line << std::endl;
 				i++;

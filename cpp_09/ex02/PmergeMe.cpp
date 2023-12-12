@@ -199,7 +199,7 @@ void PmergeMe::merge_insertion_sort_vector()
 	
 	if(vec_debug_mode)
 	{	
-		std::cout << "vec n_compares: " << n_compares_vec << std::endl;
+		std::cout << "number of comparisons: " << n_compares_vec << std::endl;
 		is_sorted_vect(numbers_vec) ? std::cout << "sorted" << std::endl : std::cout << "not sorted" << std::endl;
 		size != numbers_vec.size() ? std::cout << "size is wrong: " << size << std::endl : std::cout << "size is correct: " << size << std::endl;
 	}
@@ -578,12 +578,6 @@ void PmergeMe::merge_insertion_sort_list()
 	
 
 	std::cout << "Time to process a range of " << size << " elements with std::list : " << (AfterMicro - BeforeMicro) << " us" << std::endl;
-	if(list_debug_mode)
-	{
-		std::cout << "list n_compares: " << n_compares_list << std::endl;
-		is_sorted_list(numbers_list) ? std::cout << "sorted" << std::endl : std::cout << "not sorted" << std::endl;
-		size != numbers_list.size() ? std::cout << "size is wrong: " << size << std::endl : std::cout << "size is correct: " << size << std::endl;
-	}
 }
 
 void PmergeMe::merge_part_list(list_int &v, int vec_size, list_list_int &big_v)
